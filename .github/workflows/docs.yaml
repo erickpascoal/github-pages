@@ -1,0 +1,25 @@
+name: release Docs
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  release-docs:
+    name: Buid and release Docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        uses: yarn install
+
+      - name: Build docs
+        uses: yarn build-storybook
+
+      - name: Deploy docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: storybook-static
+          token: ${{ secrets.GITHUB_TOKEN }}
