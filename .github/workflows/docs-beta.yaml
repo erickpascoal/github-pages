@@ -34,7 +34,7 @@ jobs:
       id-token: write  
     environment:
       name: beta
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}-beta
 
     steps:
       - name: Checkout branch
