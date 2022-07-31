@@ -1,0 +1,45 @@
+name: release Docs (Beta)
+on: 
+  push:
+    branches:
+      - beta
+
+jobs:
+  build-docs:
+    name: Build docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build docs
+        run: yarn build-storybook
+
+      - name: Deploy docs
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: "storybook-static/"
+          retention-days: "90"
+
+          
+  deploy-docs:
+    name: Deploy docs
+    needs: [build-docs]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write     
+      id-token: write  
+    environment:
+      name: beta
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
