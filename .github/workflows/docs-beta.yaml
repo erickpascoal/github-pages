@@ -34,7 +34,7 @@ jobs:
       id-token: write  
     environment:
       name: beta
-      url: ${{ steps.deployment.outputs.page_url }}-beta
+      url: https://erickpascoal.github.io/github-pages-beta
 
     steps:
       - name: Checkout branch
